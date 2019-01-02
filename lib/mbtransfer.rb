@@ -40,7 +40,7 @@ module Mbtransfer
       vsc_path = Paths.base_path[@year] + Paths.vscode_path
       Paths.vscode_files.each do |file|
         path = vsc_path + "/#{file}"
-        FileUtils.cp(path, transfer_path)
+        FileUtils.cp_r(path, transfer_path)
       end
     end
   
