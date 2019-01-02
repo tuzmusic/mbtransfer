@@ -6,6 +6,7 @@ RSpec::Core::RakeTask.new(:spec)
 
 task :default => :spec
 task :console do
+  require_relative 'lib/mbtransfer.rb'
   Pry.start
 end
 
