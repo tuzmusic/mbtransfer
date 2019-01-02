@@ -12,7 +12,11 @@ module Mbtransfer
     end
   
     def self.vscode_path
-      "/Application\ Support/Code/User"
+      "/Library/Application\ Support/Code/User"
+    end
+
+    def self.vscode_files
+      ["keybindings.json", "settings.json", "snippets"]
     end
   end
   
@@ -23,15 +27,21 @@ module Mbtransfer
     def initialize(year)
       @year = year
     end
+
+    def transfer_path
+      Paths.base_path[@year] + Paths.icloud_path+"/transfer"
+    end
   
     def set_up_folders
-      @source_path =  (FileUtils.mkdir_p (Paths.base_path[@year] + Paths.icloud_path+"/source")).first
-      @dest_path =    (FileUtils.mkdir_p (Paths.base_path[@year] + Paths.icloud_path+"/dest")).first
+      FileUtils.mkdir_p transfer_path
     end
   
     def copy_vscode_files
-      path = Paths.base_path[@year] + Paths.vscode_path
-  
+      vsc_path = Paths.base_path[@year] + Paths.vscode_path
+      Paths.vscode_files.each do |file|
+        path = vsc_path + "/#{file}"
+        FileUtils.cp(path, transfer_path)
+      end
     end
   
     def import
